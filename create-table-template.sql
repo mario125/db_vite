@@ -92,12 +92,92 @@ create table t_bussines(
     FOREIGN KEY (id_bussines_category)REFERENCES t_bussines_category(bussines_category_id)
 
 );
-create table t_producto(
+create table t_ingredient(
+    ingredient_id int not null primary key AUTO_INCREMENT,
+    ingredient_name varchar(50),
+    ingredient_image varchar(100),
+    ingredient_status int
+);
+create table t_type_product(
+    t_type_product_id int not null primary key AUTO_INCREMENT,
+    t_type_product_name varchar(50)
+);
+create table t_product(
     product_id int not null primary key AUTO_INCREMENT ,
     product_name varchar(50),
     product_price double,
     pruduct_image varchar(100),
     product_description text,
-    product_
+    product_time varchar(20),
+    product_score double,
+    product_status int,
+    id_bussines int,
+    id_type_product int,
+    FOREIGN KEY (id_bussines)REFERENCES t_bussines(bussines_id),
+    FOREIGN KEY (id_type_product)REFERENCES t_type_product(t_type_product_id)
+
 );
-/**/
+create table t_producto_ingredient(
+    product_ingredient_id int not null primary key AUTO_INCREMENT,
+    product_ingredient_porcent double,
+    product_ingredient_description text,
+    id_ingredient int,
+    id_product int,
+    FOREIGN KEY (id_ingredient)REFERENCES t_ingredient(ingredient_id),
+    FOREIGN KEY (id_product)REFERENCES t_product(product_id)
+);
+create table t_offer(
+    offer_id int not null primary key AUTO_INCREMENT,
+    offer_name varchar(50),
+    offer_price double,
+    offer_image varchar(100),
+    offer_description text,
+    offer_date_start DATETIME ,
+    offer_date_end DATETIME ,
+    offer_status int
+);
+create table t_product_offer(
+    t_product_offer_id int not null primary key AUTO_INCREMENT,
+    id_offer int,
+    id_product int,
+    FOREIGN KEY (id_offer)REFERENCES t_offer(offer_id),
+    FOREIGN KEY (id_product)REFERENCES t_product(product_id)
+);
+create table t_type_payment(
+ type_payment_id int not null primary key AUTO_INCREMENT,
+ type_payment_name varchar(20),
+ type_payment_image varchar(100),
+ type_payment_status int
+);
+create table t_order(
+    order_id int not null primary key AUTO_INCREMENT,
+    order_date datetime,
+    order_adress_bussines varchar(100),
+    order_latlong_bussines varchar(50),
+    order_adress_user varchar(100),
+    order_latlong_user varchar(50),
+    order_pryce_food double,
+    order_pryce_delivery double,
+    order_pryce_total double,
+    order_status_food int,
+    order_status_payment int,
+    order_status int,
+    id_driver int,
+    id_user int,
+    id_type_payment int,
+    FOREIGN KEY (id_user)REFERENCES t_user(user_id),
+    FOREIGN KEY (id_type_payment)REFERENCES t_type_payment(type_payment_id)
+);
+create table t_order_item(
+    order_item_id int not null primary key AUTO_INCREMENT,
+    order_item_product varchar(100),
+    order_item_amount double,
+    order_item_pryce double,
+    order_item_total double,
+    order_item_date datetime,
+    id_order int,
+    id_bussines int,
+    FOREIGN KEY (id_order)REFERENCES t_order(order_id),
+    FOREIGN KEY (id_bussines)REFERENCES t_bussines(bussines_id)
+
+);
