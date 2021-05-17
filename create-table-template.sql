@@ -196,6 +196,7 @@ create table t_people(
     people_phone varchar(13),
     people_bussines_id int,
     people_image varchar(100),
+    cede-- para saver de que ciudad
     people_status int,
     id_role int,
     FOREIGN  KEY  (id_role) REFERENCES t_role(role_id)
