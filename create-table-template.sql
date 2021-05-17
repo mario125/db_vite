@@ -112,7 +112,7 @@ create table t_product(
     product_score double,
     product_status int,
     id_bussines int,
-    id_type_product int,
+    id_type_product int,/*pasivo*/
     FOREIGN KEY (id_bussines)REFERENCES t_bussines(bussines_id),
     FOREIGN KEY (id_type_product)REFERENCES t_type_product(t_type_product_id)
 
@@ -134,6 +134,7 @@ create table t_offer(
     offer_description text,
     offer_date_start DATETIME ,
     offer_date_end DATETIME ,
+    ofeer_score double,
     offer_status int
 );
 create table t_product_offer(
@@ -159,8 +160,9 @@ create table t_order(
     order_pryce_food double,
     order_pryce_delivery double,
     order_pryce_total double,
-    order_status_food int,
+    order_status_food int,/*error de cocina*/
     order_status_payment int,
+    order_description text,
     order_status int,
     id_driver int,
     id_user int,
@@ -170,6 +172,7 @@ create table t_order(
 );
 create table t_order_item(
     order_item_id int not null primary key AUTO_INCREMENT,
+    order_item_product varchar(50),
     order_item_product varchar(100),
     order_item_amount double,
     order_item_pryce double,
@@ -179,5 +182,44 @@ create table t_order_item(
     id_bussines int,
     FOREIGN KEY (id_order)REFERENCES t_order(order_id),
     FOREIGN KEY (id_bussines)REFERENCES t_bussines(bussines_id)
+);
+create table t_role(
+    role_id int not null primary key AUTO_INCREMENT,
+    role_name varchar(50),
+    role_permision JSON
+);
+create table t_people(
+    people_id int not null primary key AUTO_INCREMENT,
+    people_name varchar(50),
+    people_email varchar(50),
+    people_password varchar(100),
+    people_phone varchar(13),
+    people_bussines_id int,
+    people_image varchar(100),
+    people_status int,
+    id_role int,
+    FOREIGN  KEY  (id_role) REFERENCES t_role(role_id)
 
 );
+
+/*
+
+tabla sugerencias
+
+id usuario
+
+detalle
+
+tabla caja  con intermedia para moto y usuario
+
+tipos de usuario
+
+admin
+
+cliente
+
+---> caja de mto a delivery
+--> caja de  negocio a items
+--> caja de admin a item 6 delivery
+
+*/
